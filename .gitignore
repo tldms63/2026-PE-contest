@@ -12,6 +12,8 @@ backend/static/videos/*.mp4
 # Python
 __pycache__/
 *.pyc
+.venv/
+venv/
 
 # OS
 .DS_Store
