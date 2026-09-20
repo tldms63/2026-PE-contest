@@ -68,6 +68,38 @@
 
 ---
 
+## 🚀 실행 방법 (Getting Started)
+
+> 아래 명령은 모두 **프로젝트 루트**에서 실행한다 (`data/` 스크립트도 동일한 기준).
+
+```bash
+# 1. 의존성 설치
+pip install -r backend/requirements.txt
+
+# 2. 데이터 수집 - backend/.env 에 PHOTO_API_KEY 가 필요하다.
+#    이 단계를 건너뛰면 data/olympics.db 가 없어 모든 검색 API가 실패한다.
+python data/collector.py
+
+# 3. 백엔드 서버 실행 (http://127.0.0.1:8000)
+uvicorn backend.main:app --reload
+```
+
+`backend`는 파이썬 패키지이므로 **반드시 루트에서 `backend.main:app` 형태로 실행**한다.
+`backend/` 안으로 들어가 `uvicorn main:app`으로 띄우면 패키지 상대 import가 깨져
+`attempted relative import with no known parent package` 오류가 발생한다.
+
+프런트엔드는 정적 파일이라 `frontend/`를 아무 정적 서버로 열면 된다
+(웹캠 권한 때문에 `file://`이 아니라 `http://localhost`로 열어야 한다).
+
+```bash
+python -m http.server 5500 --directory frontend
+```
+
+데이터 파이프라인(수집 → 클립 다운로드 → 포즈 추출)의 자세한 사용법은
+[data/DATA_PIPELINE.md](data/DATA_PIPELINE.md)를 참고한다.
+
+---
+
 ## ⚙️ 포즈 유사도 측정 알고리즘
 
 본 서비스의 핵심인 동작 일치율은 다음과 같은 과정으로 계산됩니다.
